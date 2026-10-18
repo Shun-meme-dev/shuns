@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Toàn Không Gian Mạng - Tổ 3 STEM Tin Học</title>
+    <style>
+        :root {
+            --primary-dark: #0f172a; 
+            --accent-blue: #0284c7;  
+            --bg-light: #ffffff;    
+            --bg-secondary: #f8fafc;
+            --text-main: #334155;
+            --border-color: #e2e8f0;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        <!-- MENU -->
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: var(--bg-light);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 101;
+            gap: 15px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+        .menu-btn:hover { background-color: var(--bg-secondary); }
+
+        .top-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        aside {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            left: 0;
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        aside.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 10px;
+            flex-grow: 1;
+        }
+
+        .sidebar-menu li a {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            background-color: #e2e8f0;
+            color: var(--primary-dark);
+        }
+
+        .sidebar-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .settings-item:hover { background-color: #e2e8f0; }
+
+        main {
+            margin-top: 60px;
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 40px;
+            max-width: 900px;
+            transition: margin-left 0.3s ease;
+        }
+
+        main.full-width {
+            margin-left: 0;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+        }
+
+        h1 { font-size: 30px; border-bottom: 2px solid var(--primary-dark); padding-bottom: 10px; }
+        h2 { font-size: 22px; margin-top: 30px; }
+        
+        p, ul {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        ul { padding-left: 20px; }
+
+        blockquote {
+            border-left: 4px solid var(--accent-blue);
+            padding: 12px;
+            margin: 20px 0;
+            color: #475569;
+            font-style: italic;
+            background: var(--bg-secondary);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .btn {
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: opacity 0.2s;
+            margin: 15px 0;
+        }
+        .btn:hover { opacity: 0.9; }
+
+        .ai-image-container {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+        }
+        .ai-image-placeholder {
+            width: 100%;
+            max-width: 450px;
+            height: 250px;
+            background: linear-gradient(135deg, #0f172a, #0284c7);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px auto;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .number-three { font-size: 70px; color: #f43f5e; }
+
+        .password-checker-box {
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 40px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .password-input-group {
+            position: relative;
+            max-width: 400px;
+            margin: 15px auto;
+            display: flex;
+        }
+        .password-input-group input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+        .toggle-pwd-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #64748b;
+        }
+        #pwd-result { margin-top: 15px; font-weight: bold; font-size: 18px; }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            color: #64748b;
+            font-size: 14px;
+        }
+        footer p { margin-bottom: 3px; }
+    </style>
+</head>
+<body>
+
+    <!-- MENU -->
+    <header class="top-navbar">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <div class="top-title">An Toàn Không Gian Mạng - STEM Tin Học</div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="index.html" class="active"> Trang chủ</a></li>
+            <li><a href="thanhvien.html"target="_blank"> Thành Viên</a></li>
+            <li><a href="thamkhao.html"target="_blank"> Tham khảo </a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="#settings" class="settings-item" onclick="alert('Mục Cài đặt hệ thống')">
+                <span>⚙️</span> Cài đặt
+            </a>
+        </div>
+    </aside>
+    
+    <main id="main-content">
+        <h1>An Toàn Không Gian Mạng - Bảo Vệ Chính Mình Trong Kỷ Nguyên Số</h1>
+        
+        <p>Trong thời đại số hóa hiện nay, không gian mạng đóng vai trò cốt lõi trong học tập, công việc và đời sống. Tuy nhiên, đi kèm với sự tiện lợi là hàng loạt rủi ro về rò rỉ dữ liệu, mã độc, lừa đảo trực tuyến và tấn công mạng.</p>
+        
+        <h2>1. Khái niệm về An toàn không gian mạng</h2>
+        <p>Theo Cổng Thông tin Điện tử Chính phủ, an toàn không gian mạng là tập hợp các hoạt động phòng ngừa, phát hiện, ngăn chặn và xử lý các hành vi vi phạm pháp luật nhằm bảo vệ hệ thống thông tin, dữ liệu số và các thiết bị trực tuyến.</p>
+
+        <h2>2. Những đặc điểm điển hình</h2>
+        <ul>
+            <li><strong>Tính ẩn danh cao:</strong> Kẻ tấn công dễ dàng ngụy trang nguồn gốc và vị trí địa lý.</li>
+            <li><strong>Tốc độ lây lan nhanh:</strong> Mã độc hoặc tin giả có thể lan rộng toàn cầu chỉ trong giây lát.</li>
+            <li><strong>Hậu quả nghiêm trọng:</strong> Gây thiệt hại tài chính lớn và khủng hoảng uy tín cá nhân, tổ chức.</li>
+        </ul>
+
+        <blockquote>
+            "An toàn không gian mạng bắt nguồn từ sự cẩn trọng và ý thức tự bảo vệ của mỗi người dùng." — Chuyên gia An ninh mạng.
+        </blockquote>
+
+        <a href="thamkhao.html" target="_blank" class="btn">Xem Hình Ảnh & Video Thực Tế ( Tham Khảo)</a>
+
+        <h2>3. Phân loại hành vi không an toàn và ví dụ</h2>
+        <ul>
+            <li><strong>Lừa đảo trực tuyến (Phishing):</strong> Giả mạo ngân hàng hoặc cơ quan chức năng để chiếm đoạt tài khoản.
+                <br><em>Ví dụ:</em> Nhận tin nhắn trúng thưởng yêu cầu click vào link lạ nhập mã OTP.</li>
+            <li><strong>Phát tán tin giả (Fake News):</strong> Tung tin sai sự thật gây hoang mang cộng đồng.
+                <br><em>Ví dụ:</em> Đăng tin đồn thất thiệt về thiên tai, dịch bệnh.</li>
+            <li><strong>Xâm phạm quyền riêng tư:</strong> Đăng tải thông tin, hình ảnh cá nhân người khác lên mạng ác ý.
+                <br><em>Ví dụ:</em> Lập nhóm bôi nhọ bạn bè trên mạng xã hội.</li>
+        </ul>
+
+        <div class="ai-image-container">
+            <div class="ai-image-placeholder">
+                <span>Không gian mạng</span>
+                <span class="number-three">3</span>
+            </div>
+
+        <h2>4. Tài liệu tham khảo và nguồn uy tín</h2>
+        <p>Nội dung được tổng hợp từ Cổng Thông tin điện tử Chính phủ và Cục An toàn thông tin.</p>
+        <ul>
+            <li><a href="https://www.unicef.org/vietnam/vi/nhung-dieu-can-biet-de-toan-trong-khong-gian-mang" target="_blank"> An toàn thông tin-UNICEF</a></li>
+            <li><a>https://m.youtube.com/watch?v=Q6ye2JtslVs"target="_blank">Video an toàn không gian mạng</a></li>
+        </ul>
+
+        <div style="margin: 30px 0;">
+            <h3>Kiểm tra kiến thức</h3>
+            <p>Nhấn vào nút dưới đây để chuyển đến câu hỏi trắc nghiệm :):</p>
+            <a href="quiz.html"target="_blank" class="btn">Chuyển đến Trang Hỏi Đáp & Trắc Nghiệm</a>
+   
+        <div class="password-checker-box">
+            <h3>Công cụ Kiểm tra Độ mạnh Mật khẩu</h3>
+            <p>Nhập mật khẩu để hệ thống đánh giá:</p>
+            <div class="password-input-group">
+                <input type="password" id="pwd-input" placeholder="Nhập mật khẩu..." oninput="checkPasswordStrength()">
+                <button class="toggle-pwd-btn" onclick="togglePasswordVisibility()">👁️</button>
+            </div>
+            <div id="pwd-result">Mật khẩu: Chưa nhập</div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="btn" style="background-color: #64748b;">Quay lại đầu trang ⬆️</a>
+        </div>
+
+        <footer>
+            <p>Tổ 3's products</p>
+            <p>Make by Shun 🩷</p>
+        </footer>
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const main = document.getElementById('main-content');
+            sidebar.classList.toggle('hidden');
+            main.classList.toggle('full-width');
+        }
+
+        function togglePasswordVisibility() {
+            const pwdInput = document.getElementById('pwd-input');
+            pwdInput.type = pwdInput.type === 'password' ? 'text' : 'password';
+        }
+
+        function checkPasswordStrength() {
+            const val = document.getElementById('pwd-input').value;
+            const res = document.getElementById('pwd-result');
+            if (val.length === 0) { res.innerText = "Mật khẩu: Chưa nhập"; res.style.color = "var(--text-main)"; return; }
+            let score = (/[A-Z]/.test(val) ? 1 : 0) + (/[a-z]/.test(val) ? 1 : 0) + (/[0-9]/.test(val) ? 1 : 0) + (/[^A-Za-z0-9]/.test(val) ? 1 : 0);
+            let strength = "Yếu", color = "#ef4444";
+            if (val.length >= 8 && score >= 4) { strength = "Rất mạnh"; color = "#22c55e"; }
+            else if (val.length >= 6 && score >= 3) { strength = "Mạnh"; color = "#3b82f6"; }
+            else if (val.length >= 6 && score >= 2) { strength = "Trung bình"; color = "#f59e0b"; }
+            res.innerText = `Mật khẩu: ${strength}`;
+            res.style.color = color;
+        }
+    </script>
+</body>
+  </html>
